@@ -11,6 +11,7 @@
     <Compile Include="Day3.fs" />
     <Compile Include="Day4.fs" />
     <Compile Include="Day5.fs" />
+    <Compile Include="Day6.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
@@ -21,6 +22,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="data\Day5.txt" />
+    <Content Include="data\Day6.txt" />
   </ItemGroup>
 
 </Project>
