@@ -1,11 +1,5 @@
 ﻿module Day3
 
-open System.Net
-open System.IO.MemoryMappedFiles
-open Day2
-
-
-
 type Direction =
     | Down
     | Left
@@ -73,7 +67,7 @@ let maxDistance input =
     origin.Distance coord, max
    
 
-let do2 () =
+let Part2 () =
     let input = 277678
     let res = maxDistance input
     printfn "%A -> %A" input res
@@ -102,13 +96,7 @@ let manhattanDistance input =
     let vector = origin.Distance coord
     (vector.X |> abs) + (vector.Y |> abs)
 
-let do1() =
+let Part1() =
     let input = 277678
     let res = manhattanDistance input
     printfn "%A -> %A" input res
-
-// ----------------------------------------------------------------------------------------
-
-let Do () =
-    //do1()
-    do2()
