@@ -14,11 +14,14 @@ let main argv =
     //Day4.Part1()
     //Day4.Part2()
 
-    //Day5.Part1 ()
-    //Day5.Part2 ()
+    //Day5.Part1()
+    //Day5.Part2()
 
-    Day6.Part1 ()
-    Day6.Part2 ()
+    //Day6.Part1()
+    //Day6.Part2()
+
+//    Day7.Part1()
+    Day7.Part2()
 
 
     0 // return an integer exit code
