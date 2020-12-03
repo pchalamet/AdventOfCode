@@ -50,7 +50,7 @@ module Day2 =
             min <= c && c <= max
 
         banner "2" "1"
-        let valid = readData "Input2.txt" |> Array.filter (checkPolicy << toPolicy) |> Array.length
+        let valid = readData "Input2.txt" |> Array.filter (toPolicy >> checkPolicy) |> Array.length
         printfn "%d" valid
 
 
@@ -62,7 +62,7 @@ module Day2 =
             | _ -> false
 
         banner "2" "1"
-        let valid = readData "Input2.txt" |> Array.filter (checkPolicy << toPolicy) |> Array.length
+        let valid = readData "Input2.txt" |> Array.filter (toPolicy >> checkPolicy) |> Array.length
         printfn "%d" valid
 
 [<EntryPoint>]
