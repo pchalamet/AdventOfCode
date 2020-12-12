@@ -295,6 +295,44 @@ module Day8 =
         let res = tryPatch 0
         printfn "%d" res
 
+module Day9 = 
+    let data = readData "Input9.txt" |> Array.map (System.Int64.Parse) |> List.ofArray
+
+    let rec find offset =
+        let indices = seq { for i in offset-25..offset-1 do
+                                for j in i..offset-1 do 
+                                    yield i,j }
+
+        match indices |> Seq.tryFind (fun (i, j) -> data.[i] + data.[j] = data.[offset]) with
+        | Some _ -> find (offset+1)
+        | _ -> data.[offset]
+
+    let part1() =
+        let res = find 25
+        printfn "%d" res
+
+    let part2() =
+        let invalidNumber = find 25
+
+        let rec check data =
+            let rec incSum acc data =
+                let s = acc |> List.sum
+                if s = invalidNumber then Some acc
+                elif s > invalidNumber then None
+                else
+                    match data with
+                    | head :: tail -> incSum (head::acc) tail
+                    | _ -> None
+            match data with
+            | head :: tail -> match incSum [head] tail with
+                              | Some x -> x
+                              | _ -> check tail
+            | _ -> failwith "no more data"
+        let res = check data
+        let minRes = res |> List.min
+        let maxRes = res |> List.max
+        printfn "%d" (minRes + maxRes)
+
 
 
 [<EntryPoint>]
@@ -306,5 +344,6 @@ let main argv =
     // Day5.part1(); Day5.part2()
     // Day6.part1(); Day6.part2()
     // Day7.part1(); Day7.part2()
-    Day8.part1(); Day8.part2()
+    // Day8.part1(); Day8.part2()
+    Day9.part1(); Day9.part2()
     0
