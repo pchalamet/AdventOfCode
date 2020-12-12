@@ -197,11 +197,65 @@ module Day5 =
         printfn "%A" mySeat.Head
 
 
+module Day6 =
+    let data = File.ReadAllText "Input6.txt"
+
+    let part1() =
+        let res = data.Split("\n\n", StringSplitOptions.RemoveEmptyEntries) |> Array.sumBy (fun x -> x.Replace("\n", "") |> Set.ofSeq |> Set.count)
+        printfn "%d" res
+
+    let part2() =
+        let res = data.Split("\n\n", StringSplitOptions.RemoveEmptyEntries) |> Array.sumBy (fun x -> x.Split("\n") |> Array.map Set.ofSeq 
+                                                                                                                   |> Array.reduce Set.intersect 
+                                                                                                                   |> Set.count)
+        printfn "%d" res
+
+module Day7 =
+    let rec toContainerInfo (line: string list) res =
+        match line with
+        | Integer count 
+              :: name1 
+              :: name2 
+              :: Regex "(bag|bags)(,|\.)" _ 
+              :: tail -> res |> Map.add $"{name1} {name2}" count |> toContainerInfo tail
+        | _ -> // printfn "%A %A" res line
+               res
+
+    let toBagInfo (line: string list) =
+        match line with
+        | name1 :: name2 :: "bags" :: "contain" :: tail -> $"{name1} {name2}", toContainerInfo tail Map.empty
+        | _ -> failwith "invalid line"
+
+    let data = readData "Input7.txt"
+    let containers = data |> Array.map (fun x -> x.Split(" ") |> List.ofArray |> toBagInfo) |> Map.ofArray
+    
+    let part1() =        
+        let rec find name =
+            match containers |> Map.tryFind name with
+            | Some m -> if m |> Map.containsKey "shiny gold" then 1
+                        else if m |> Seq.exists (fun x -> find x.Key > 0) then 1 else 0
+            | _ -> 0
+
+        let res = containers |> Seq.map (fun kvp -> find kvp.Key) |> Seq.sum
+        printfn "%d" res
+
+    let part2() =
+        let rec collect name =
+            match containers |> Map.tryFind name with
+            | Some m -> m |> Seq.sumBy (fun x -> (x.Value |> int64) + (x.Value |> int64) * (collect x.Key))
+            | _ -> 0L
+
+        let res = collect "shiny gold"
+        printfn "%d" res
+
+
 [<EntryPoint>]
 let main argv =
     // Day1.part1() ; Day1.part2()
     // Day2.part1() ; Day2.part2()
     // Day3.part1(); Day3.part2()
     // Day4.part1(); Day4.part2()
-    Day5.part1(); Day5.part2()
+    // Day5.part1(); Day5.part2()
+    // Day6.part1(); Day6.part2()
+    Day7.part1(); Day7.part2()
     0
