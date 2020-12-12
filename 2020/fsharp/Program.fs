@@ -248,6 +248,54 @@ module Day7 =
         let res = collect "shiny gold"
         printfn "%d" res
 
+module Day8 =
+    let data = readData "Input8.txt" |> Array.map (fun x -> x.Split(" ") |> List.ofArray)
+
+    let part1() =
+        let rec eval processedPC acc pc =
+            if processedPC |> Set.contains pc then acc
+            else
+                let processedPC = processedPC |> Set.add pc
+                match data.[pc] with
+                | "nop" :: _ -> eval processedPC acc (pc+1)
+                | "acc" :: Integer c :: [] -> eval processedPC (acc+c) (pc+1)
+                | "jmp" :: Integer offset :: [] -> eval processedPC acc (pc+offset)
+                | x -> failwithf "Unknown instruction %A" x
+        let res = eval Set.empty 0 0
+        printfn "%d" res
+
+    let part2() =
+        let rec eval processedPC acc pc =
+            if processedPC |> Set.contains pc then None
+            else if pc = data.Length then Some acc
+            else
+                let processedPC = processedPC |> Set.add pc
+                match data.[pc] with
+                | "nop" :: _ -> eval processedPC acc (pc+1)
+                | "acc" :: Integer c :: [] -> eval processedPC (acc+c) (pc+1)
+                | "jmp" :: Integer offset :: [] -> eval processedPC acc (pc+offset)
+                | x -> failwithf "Unknown instruction %A" x
+
+        let rec tryPatch offset =
+            let patchAndEval instr count =
+                let backup = data.[offset]
+                data.[offset] <- instr :: count
+                let res = eval Set.empty 0 0
+                data.[offset] <- backup
+                res
+
+            let res = match data.[offset] with
+                      | "nop" :: count -> patchAndEval "jmp" count
+                      | "jmp" :: count -> patchAndEval "nop" count
+                      | _ -> None
+            match res with
+            | Some acc -> acc
+            | _ -> tryPatch (offset+1)
+
+        let res = tryPatch 0
+        printfn "%d" res
+
+
 
 [<EntryPoint>]
 let main argv =
@@ -257,5 +305,6 @@ let main argv =
     // Day4.part1(); Day4.part2()
     // Day5.part1(); Day5.part2()
     // Day6.part1(); Day6.part2()
-    Day7.part1(); Day7.part2()
+    // Day7.part1(); Day7.part2()
+    Day8.part1(); Day8.part2()
     0
