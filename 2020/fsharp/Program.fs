@@ -333,6 +333,123 @@ module Day9 =
         let maxRes = res |> List.max
         printfn "%d" (minRes + maxRes)
 
+module Day10 =
+    let data = readData "Input10.txt" |> List.ofArray |> List.map Int32.Parse |> List.sort
+
+    let part1() =
+        let diffs = 0 :: data @ [3 + (data |> List.max)] |> List.pairwise
+        let diffs = diffs |> List.map (fun (a,b) -> b-a)
+
+        let jolt1s = diffs |> List.filter (fun x -> x = 1) |> List.length
+        let jolt3s = diffs |> List.filter (fun x -> x = 3) |> List.length
+        printfn "%A" (jolt1s * jolt3s)
+
+    let part2() =
+        // let deviceJolts = 3 + (data |> List.max)
+        // printfn "%d %A" deviceJolts data
+
+        // let rec explore acc data =
+        //     seq {
+        //         if deviceJolts <= acc + 3 then yield 1
+        //         else
+        //             let rec exploreCompatible data =
+        //                 seq {
+        //                     match data with
+        //                     | candidate :: tail -> if candidate <= acc + 3 then
+        //                                                yield! explore candidate tail
+        //                                                yield! exploreCompatible tail
+        //                     | _ -> ()
+        //                 }
+
+        //             yield! exploreCompatible data
+        //     }
+        // let res = explore (0, 0, 1) (data |> List.rev)
+        // printfn "%d" res
+
+        let data = 0 :: data
+        let mutable res = (1L, 0L, 0L)
+        for i in [data.Length-2..-1..0] do
+            let (a, b, c) = res
+            let s = (if i+1 < data.Length && data.[i+1] - data.[i] <= 3 then a else 0L)
+                  + (if i+2 < data.Length && data.[i+2] - data.[i] <= 3 then b else 0L)
+                  + (if i+3 < data.Length && data.[i+3] - data.[i] <= 3 then c else 0L)
+            res <- (s, a, b)
+        let (a, _, _) = res
+        printfn "%d" a
+
+module Day11 = 
+    let data = readData "Input11.txt" |> Array.map (fun x -> x |> Array.ofSeq)
+    let width = data.[0].Length
+    let height = data.Length
+
+
+    // let print (data: 't array array) =
+    //     for i in 0..height-1 do
+    //         for j in 0..width-1 do
+    //             printf "%A " data.[i].[j]
+    //         printfn ""
+
+    let isAdjacentOccupied (data: char array array) i j di dj =
+        let i = i + di
+        let j = j + dj
+        if 0 <= i && i < height && 0 <= j && j < width then
+            if data.[i].[j] = '#' then 1
+            else 0
+        else 0
+
+    let isVisibilityOccupied (data: char array array) x y di dj =
+        let rec findVisible i j =
+            if 0 <= i && i < height && 0 <= j && j < width then
+                match data.[i].[j] with
+                | '#' -> 1
+                | 'L' -> 0
+                | '.' -> findVisible (i+di) (j+dj)
+                | _ -> failwith "invalid data"
+            else 0
+        findVisible (x+di) (y+dj)
+
+    let directions = [ (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1); (0, -1)]
+
+    let computeOccupation data occupancyEvaluator =
+        let occupation = (Array.zeroCreate<int> height) |> Array.map (fun _ -> Array.zeroCreate<int> width)
+        for i in 0..height-1 do
+            for j in 0..width-1 do
+                occupation.[i].[j] <- directions |> List.sumBy (fun (di, dj) -> occupancyEvaluator data i j di dj)
+        occupation
+
+    let countOccupied (data: char array array) =
+        let res = [ for i in 0..height-1 do
+                        for j in 0..width-1 do
+                            if data.[i].[j] = '#' then 1
+                            else 0 ] |> List.sum
+        res
+
+    let convergeOccupancy occupancyEvaluator threshold =
+        let workData = data |> Array.map (fun x -> x |> Array.copy)
+
+        let rec mutate () =
+            let occupation = computeOccupation workData occupancyEvaluator
+
+            let mutable hasMutated = false
+            for i in 0..height-1 do
+                for j in 0..width-1 do
+                    if workData.[i].[j] = 'L' && occupation.[i].[j] = 0 then 
+                        workData.[i].[j] <- '#'
+                        hasMutated <- true
+                    elif workData.[i].[j] = '#' && occupation.[i].[j] >= threshold then
+                        workData.[i].[j] <- 'L'
+                        hasMutated <- true
+            hasMutated
+        while mutate () do ()
+        countOccupied workData
+
+    let part1() =
+        let res = convergeOccupancy isAdjacentOccupied 4
+        printfn "%d" res
+        
+    let part2() =
+        let res = convergeOccupancy isVisibilityOccupied 5
+        printfn "%d" res
 
 
 [<EntryPoint>]
@@ -345,5 +462,7 @@ let main argv =
     // Day6.part1(); Day6.part2()
     // Day7.part1(); Day7.part2()
     // Day8.part1(); Day8.part2()
-    Day9.part1(); Day9.part2()
+    // Day9.part1(); Day9.part2()
+    // Day10.part1(); Day10.part2()
+    Day11.part1(); Day11.part2()
     0
