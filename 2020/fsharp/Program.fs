@@ -452,6 +452,37 @@ module Day11 =
         printfn "%d" res
 
 
+module Day12 =
+    let data = readData "Input12.txt" |> List.ofArray
+
+    let findMove x y dir instruction =
+        match instruction with
+        | Regex "N([0-9]+)" [Integer m] -> x, (y+m), dir
+        | Regex "E([0-9]+)" [Integer m] -> (x+m), y, dir
+        | Regex "S([0-9]+)" [Integer m] -> x, (y-m), dir
+        | Regex "W([0-9]+)" [Integer m] -> (x-m), y, dir
+        | Regex "L([0-9]+)" [Integer m] -> x, y, (dir + 360 - m) % 360
+        | Regex "R([0-9]+)" [Integer m] -> x, y, (dir + m) % 360
+        | Regex "F([0-9]+)" [Integer m] -> match dir with
+                                           | 0 -> x, (y+m), dir
+                                           | 90 -> (x+m), y, dir
+                                           | 180 -> x, (y-m), dir
+                                           | 270 -> (x-m), y, dir
+                                           | _ -> failwith "invalid move forward"
+        | _ -> failwith "Invalid data"
+
+    let rec computeFinalDestination x y dir instructions =
+        match instructions with
+        | instruction :: tail -> let x, y, dir = findMove x y dir instruction
+                                 computeFinalDestination x y dir tail
+        | _ -> abs(x) + abs(y) 
+
+    let part1() = 
+        let dist = computeFinalDestination 0 0 90 data
+        printfn "%d" dist
+
+
+
 [<EntryPoint>]
 let main argv =
     // Day1.part1() ; Day1.part2()
@@ -464,5 +495,6 @@ let main argv =
     // Day8.part1(); Day8.part2()
     // Day9.part1(); Day9.part2()
     // Day10.part1(); Day10.part2()
-    Day11.part1(); Day11.part2()
+    // Day11.part1(); Day11.part2()
+    Day12.part1()
     0
