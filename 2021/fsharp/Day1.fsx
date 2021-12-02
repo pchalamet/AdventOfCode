@@ -1,9 +1,8 @@
-open System
 open System.IO
-
 
 let readFile filename = 
     filename |> File.ReadAllLines |> Seq.map int |> List.ofSeq
+
 
 let puzzle1() =
     let count = readFile "Input1.txt" 
