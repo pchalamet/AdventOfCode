@@ -50,28 +50,8 @@ let unmarkedNumbers (board: struct(string * bool)[,]) =
               let struct(number, marked) = board[j, i]
               if marked |> not then yield number |> int ]
 
-let puzzle1 fileName =
-    let numbers, boards = readFile fileName
 
-    let rec drawNumbers numbers =
-        match numbers with
-        | number :: numbers -> boards |> List.iter (markNumber number)
-                               match boards |> List.tryFind checkBoardComplete with
-                               | Some board -> Some (number, board |> Array2D.copy)
-                               | _ -> drawNumbers numbers
-        | _ -> None
-
-    match drawNumbers (numbers |> List.ofArray) with
-    | Some (number, board) -> let sum = board |> unmarkedNumbers
-                              let sum = sum |> List.sum
-                              let num = number |> int
-                              let res = sum * num
-                              printfn $"Puzzle1: {res}"
-    | _ -> ()
-
-let puzzle2 fileName =
-    let numbers, boards = readFile fileName
-
+let findCompletedBoard boards numbers order =
     let rec drawNumbers boards numbers =
         seq {
             match numbers with
@@ -85,12 +65,22 @@ let puzzle2 fileName =
             | _ -> ()
         }
 
-    let (number, board) = drawNumbers boards (numbers |> List.ofArray) |> Seq.last
+    let (number, board) = drawNumbers boards (numbers |> List.ofArray) |> order
     let sum = board |> unmarkedNumbers
     let sum = sum |> List.sum
     let num = number |> int
     let res = sum * num
+    res
+
+let puzzle1 fileName =
+    let numbers, boards = readFile fileName
+    let res = findCompletedBoard boards numbers Seq.head
+    printfn $"Puzzle1: {res}"
+
+let puzzle2 fileName =
+    let numbers, boards = readFile fileName
+    let res = findCompletedBoard boards numbers Seq.last
     printfn $"Puzzle2: {res}"
 
-puzzle1 "Test4.txt"
-puzzle2 "Test4.txt"
+puzzle1 "Input4.txt"
+puzzle2 "Input4.txt"
