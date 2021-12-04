@@ -10,7 +10,7 @@ let readFile fileName =
         seq {
             while file.EndOfStream |> not do
                 file.ReadLine() |> ignore
-                let board = Array2D.create 5 5 struct("", false)
+                let board = Array2D.create 5 5 ("", false)
                 for i in 0..4 do
                     let line = file.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries)
                     for j in 0..4 do
@@ -24,30 +24,30 @@ let readFile fileName =
 
 
 
-let markNumber number (board: struct(string * bool)[,]) =
+let markNumber number (board: (string * bool)[,]) =
     for i in 0..4 do
         for j in 0..4 do
-            let struct(boardNumber, _) = board[j, i]
+            let (boardNumber, _) = board[j, i]
             if boardNumber = number then board[j, i] <- (number, true)
 
-let row idx (board: struct(string * bool)[,]) =
+let row idx (board: (string * bool)[,]) =
     [| board[idx, 0]; board[idx, 1]; board[idx, 2]; board[idx, 3]; board[idx, 4] |] 
 
-let col idx (board: struct(string * bool)[,]) =
+let col idx (board: (string * bool)[,]) =
     [| board[0, idx]; board[1, idx]; board[2, idx]; board[3, idx]; board[4, idx] |] 
 
-let isComplete (line: struct(string * bool)[]) = 
-    line |> Array.fold (fun acc struct(_, set) -> set && acc) true
+let isComplete (line: (string * bool)[]) = 
+    line |> Array.fold (fun acc (_, set) -> set && acc) true
 
-let checkBoardComplete (board: struct(string * bool)[,]) =
+let checkBoardComplete (board: (string * bool)[,]) =
     let rows = [0..4] |> List.map (fun idx -> board |> row idx)
     let cols = [0..4] |> List.map (fun idx -> board |> col idx)
     rows @ cols |> List.exists isComplete
 
-let unmarkedNumbers (board: struct(string * bool)[,]) =
+let unmarkedNumbers (board: (string * bool)[,]) =
     [ for i in 0..4 do
           for j in 0..4 do
-              let struct(number, marked) = board[j, i]
+              let (number, marked) = board[j, i]
               if marked |> not then yield number |> int ]
 
 
