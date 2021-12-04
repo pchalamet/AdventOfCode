@@ -17,7 +17,7 @@ let readFile fileName =
     fileName |> File.ReadAllLines |> Seq.map toMove
 
 
-let puzzle1 () =
+let puzzle1 fileName =
     let doMove pos depth (m: Move) =
         match m with
         | Up x -> pos, depth - x
@@ -25,13 +25,13 @@ let puzzle1 () =
         | Forward x -> pos + x, depth
 
     let (pos, depth) =
-        readFile "Input2.txt"
+        readFile fileName
         |> Seq.fold (fun (pos, depth) m -> doMove pos depth m) (0, 0)
 
     let res = pos * depth
     printfn $"Puzzle1: {res}"
 
-let puzzle2 () =
+let puzzle2 fileName =
     let doMove aim pos depth (m: Move) =
         match m with
         | Up x -> aim - x, pos, depth
@@ -39,12 +39,12 @@ let puzzle2 () =
         | Forward x -> aim, pos + x, depth + aim * x
 
     let (_, pos, depth) =
-        readFile "Input2.txt"
+        readFile fileName
         |> Seq.fold (fun (aim, pos, depth) m -> doMove aim pos depth m) (0, 0, 0)
 
     let res = pos * depth
     printfn $"Puzzle2: {res}"
 
 
-puzzle1 ()
-puzzle2 ()
+puzzle1 "Input2.txt"
+puzzle2 "Input2.txt"
