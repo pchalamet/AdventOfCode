@@ -20,14 +20,9 @@ let readFile fileName =
 
     fileName |> File.ReadAllLines |> Seq.map toLine |> List.ofSeq
 
-let drawLine (grid: int[,]) (x1, y1, x2, y2) =
-    let incX = if x1 = x2 then 0
-               elif x1 < x2 then 1
-               else -1
-    let incY = if y1 = y2 then 0
-               elif y1 < y2 then 1
-               else -1
-
+let drawLine (grid: int[,]) (x1: int, y1 : int, x2: int, y2: int) =
+    let incX = x2.CompareTo(x1)
+    let incY = y2.CompareTo(y1)
     let rec drawPixel x y =
         grid[x, y] <- grid[x, y] + 1
         if x <> x2 || y <> y2 then drawPixel (x + incX) (y + incY)
