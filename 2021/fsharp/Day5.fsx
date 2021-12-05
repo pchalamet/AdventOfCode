@@ -27,12 +27,11 @@ let drawLine (grid: int[,]) (x1, y1, x2, y2) =
     let incY = if y1 = y2 then 0
                elif y1 < y2 then 1
                else -1
-    let mutable x = x1
-    let mutable y = y1
-    while x <> (x2 + incX) || y <> (y2 + incY) do
+
+    let rec drawPixel x y =
         grid[x, y] <- grid[x, y] + 1
-        x <- x + incX
-        y <- y + incY
+        if x <> x2 || y <> y2 then drawPixel (x + incX) (y + incY)
+    drawPixel x1 y1
 
 let fillGrid lines =
     let maxX, maxY = gridSize 0 0 lines
