@@ -12,12 +12,12 @@ enum Move {
 
 
 fn to_move (m: &str) -> Move {
-    let items: Vec<&str> = Regex::new(r"(?P<move>\w) (?P<qty>\d+)").unwrap().captures_iter(m).map(|x| x.as_str()).collect();
-    println!("{:?}", items);
-    return match items[..] {
-        ["forward", x] => Move::Forward(x.parse::<u32>().unwrap()),
-        ["up", x] => Move::Up(x.parse::<u32>().unwrap()),
-        ["down", x] => Move::Down(x.parse::<u32>().unwrap()),
+    let captures = Regex::new(r"([a-z]+) (\d+)").unwrap().captures(m).unwrap();
+    let items: (&str, &str) = (&captures[1], &captures[2]);    
+    return match items {
+        ("forward", x) => Move::Forward(x.parse::<u32>().unwrap()),
+        ("up", x) => Move::Up(x.parse::<u32>().unwrap()),
+        ("down", x) => Move::Down(x.parse::<u32>().unwrap()),
         _ => unreachable!()
     }
 }
@@ -32,7 +32,7 @@ fn read_file (filename: &str) -> Vec<Move> {
 
 
 pub fn puzzle1() {
-    let moves = read_file("../Test2.txt");
+    let moves = read_file("../Input2.txt");
 
     fn do_move (pos: u32, depth: u32, m: &Move) -> (u32, u32) {
         return match m {
