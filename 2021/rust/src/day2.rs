@@ -1,6 +1,5 @@
 use std;
 use std::fs;
-use regex::Regex;
 
 
 enum Move {
@@ -10,14 +9,12 @@ enum Move {
 }
 
 
-
 fn to_move (m: &str) -> Move {
-    let captures = Regex::new(r"([a-z]+) (\d+)").unwrap().captures(m).unwrap();
-    let items: (&str, &str) = (&captures[1], &captures[2]);    
-    return match items {
-        ("forward", x) => Move::Forward(x.parse::<u32>().unwrap()),
-        ("up", x) => Move::Up(x.parse::<u32>().unwrap()),
-        ("down", x) => Move::Down(x.parse::<u32>().unwrap()),
+    let items = m.split(' ').collect::<Vec<&str>>();
+    return match items[..] {
+        ["forward", x] => Move::Forward(x.parse::<u32>().unwrap()),
+        ["up", x] => Move::Up(x.parse::<u32>().unwrap()),
+        ["down", x] => Move::Down(x.parse::<u32>().unwrap()),
         _ => unreachable!()
     }
 }
