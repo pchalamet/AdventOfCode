@@ -43,3 +43,19 @@ pub fn puzzle1() {
     let res = pos * depth;
     println!("Day2::Puzzle1: {}", res);
 }
+
+pub fn puzzle2() {
+    let moves = read_file("../Input2.txt");
+
+    fn do_move (aim: u32, pos: u32, depth: u32, m: &Move) -> (u32, u32, u32) {
+        return match m {
+                Move::Forward(x) => (aim, pos+x, depth + aim*x),
+                Move::Up(x) => (aim-x, pos, depth),
+                Move::Down(x) => (aim+x, pos, depth)
+            }
+    }
+
+    let (_, pos, depth) = moves.iter().fold((0,0,0), |(a,p,d),m| do_move(a,p, d, m));
+    let res = pos * depth;
+    println!("Day2::Puzzle2: {}", res);
+}
