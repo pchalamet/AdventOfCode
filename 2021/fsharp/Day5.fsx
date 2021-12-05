@@ -39,13 +39,13 @@ let fillGrid lines =
 
 let puzzle1 fileName =
     let lines = readFile fileName |> List.filter (fun (x1, y1, x2, y2) -> x1 = x2 || y1 = y2)
-    let res =fillGrid lines
+    let res = fillGrid lines
     printfn $"Puzzle1: {res}"
 
 
 let puzzle2 fileName =
     let lines = readFile fileName |> List.filter (fun (x1, y1, x2, y2) -> x1 = x2 || y1 = y2 || abs (x2-x1) = abs (y2-y1))
-    let res =fillGrid lines
+    let res = fillGrid lines
     printfn $"Puzzle2: {res}"
 
 puzzle1 "../Input5.txt"
