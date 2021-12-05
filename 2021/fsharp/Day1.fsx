@@ -25,5 +25,5 @@ let puzzle2 fileName =
 
     printfn $"Puzzle 2: {count}"
 
-puzzle1 "Input1.txt"
-puzzle2 "Input1.txt"
+puzzle1 "../Input1.txt"
+puzzle2 "../Input1.txt"

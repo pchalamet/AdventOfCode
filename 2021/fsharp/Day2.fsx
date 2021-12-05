@@ -46,5 +46,5 @@ let puzzle2 fileName =
     printfn $"Puzzle2: {res}"
 
 
-puzzle1 "Input2.txt"
-puzzle2 "Input2.txt"
+puzzle1 "../Input2.txt"
+puzzle2 "../Input2.txt"

@@ -51,7 +51,7 @@ let puzzle2 fileName =
     let lifeRating = oxygen * co2
     printfn $"Puzzle2: {lifeRating}"
 
-puzzle1 "Input3.txt"
-puzzle2 "Input3.txt"
+puzzle1 "../Input3.txt"
+puzzle2 "../Input3.txt"
 
 

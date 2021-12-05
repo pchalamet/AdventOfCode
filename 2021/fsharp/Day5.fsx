@@ -54,5 +54,5 @@ let puzzle2 fileName =
     let res =fillGrid lines
     printfn $"Puzzle2: {res}"
 
-puzzle1 "Input5.txt"
-puzzle2 "Input5.txt"
+puzzle1 "../Input5.txt"
+puzzle2 "../Input5.txt"

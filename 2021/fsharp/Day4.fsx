@@ -82,5 +82,5 @@ let puzzle2 fileName =
     let res = findCompletedBoard boards numbers Seq.last
     printfn $"Puzzle2: {res}"
 
-puzzle1 "Input4.txt"
-puzzle2 "Input4.txt"
+puzzle1 "../Input4.txt"
+puzzle2 "../Input4.txt"
