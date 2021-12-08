@@ -17,8 +17,8 @@ let ageLanternfishes (lanternfishes: (int * int64) list) =
 
 let countLanternfishes days (lanternfishes: int list) =
     let initialFishes = lanternfishes |> List.map (fun x -> x, 1L)
-    let finalFishes = [1..days] |> List.fold (fun acc day -> ageLanternfishes acc) initialFishes
-    let res = finalFishes |> List.sumBy (fun (age, count) -> count)
+    let finalFishes = [1..days] |> List.fold (fun acc _ -> ageLanternfishes acc) initialFishes
+    let res = finalFishes |> List.sumBy (fun (_, count) -> count)
     res
 
 let puzzle1 fileName =
