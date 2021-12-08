@@ -8,12 +8,12 @@ let readFile fileName =
 
 
 let ageLanternfishes (lanternfishes: (int * int64) list) =
-    let newLanterfishes = lanternfishes |> List.collect (fun (age, count) -> match age with
-                                                                             | 0 -> [(6, count); (8, count) ]
-                                                                             | x -> [x-1, count])
-                                        |> List.groupBy (fun (age, _) -> age)
-                                        |> List.map (fun (age, lst) -> age, lst |> List.sumBy (fun (_, count) -> count))
-    newLanterfishes
+    let newLanternfishes = lanternfishes |> List.collect (fun (age, count) -> match age with
+                                                                              | 0 -> [(6, count); (8, count) ]
+                                                                              | x -> [x-1, count])
+                                         |> List.groupBy (fun (age, _) -> age)
+                                         |> List.map (fun (age, lst) -> age, lst |> List.sumBy (fun (_, count) -> count))
+    newLanternfishes
 
 let countLanternfishes days (lanternfishes: int list) =
     let initialFishes = lanternfishes |> List.map (fun x -> x, 1L)
