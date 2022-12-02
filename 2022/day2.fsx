@@ -20,17 +20,17 @@ let score1 (s: string) =
 
 let score2 (s: string) =
     match s.Split(" ") with
-    | [| "C"; "X" |] -> score1 "C Y"
-    | [| "A"; "X" |] -> score1 "A Z"
-    | [| "B"; "X" |] -> score1 "B X"
+    | [| "C"; "X" |] -> "C Y"
+    | [| "A"; "X" |] -> "A Z"
+    | [| "B"; "X" |] -> "B X"
 
-    | [| "A"; "Y" |] -> score1 "A X"
-    | [| "B"; "Y" |] -> score1 "B Y"
-    | [| "C"; "Y" |] -> score1 "C Z"
+    | [| "A"; "Y" |] -> "A X"
+    | [| "B"; "Y" |] -> "B Y"
+    | [| "C"; "Y" |] -> "C Z"
 
-    | [| "B"; "Z" |] -> score1 "B Z"
-    | [| "C"; "Z" |] -> score1 "C X"
-    | [| "A"; "Z" |] -> score1 "A Y"
+    | [| "B"; "Z" |] -> "B Z"
+    | [| "C"; "Z" |] -> "C X"
+    | [| "A"; "Z" |] -> "A Y"
     | _ -> failwith "invalid match"
 
 let part1() =
@@ -43,7 +43,7 @@ let part1() =
 let part2() =
     let response =
         File.ReadAllLines(inputfile)
-        |> Seq.map score2
+        |> Seq.map (score1 << score2)
         |> Seq.sum
     printfn $"part2: {response}"
 
