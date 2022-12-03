@@ -3,7 +3,7 @@ open Helpers
 
 let inputfile = "inputs/day3.input"
 
-let allItems = (['a'..'z'] |> Set.ofList) + (['A'..'Z'] |> Set.ofList)
+let allItems = ['a'..'z'] @ ['A'..'Z'] |> Set.ofList
 
 let score (rss: string seq) =
     let common =
