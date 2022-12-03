@@ -1,10 +1,10 @@
-open System
-open System.IO
+#load "Helpers.fsx"
+open Helpers
 
 let inputfile = "inputs/day2.input"
 
 let score1 (s: string) =
-    match s.Split(" ") with
+    match s |> split " " with
     | [| "C"; "X" |] -> 6 + 1
     | [| "A"; "X" |] -> 3 + 1
     | [| "B"; "X" |] -> 0 + 1
@@ -19,7 +19,7 @@ let score1 (s: string) =
     | _ -> failwith "invalid match"
 
 let score2 (s: string) =
-    match s.Split(" ") with
+    match s |> split " " with
     | [| "C"; "X" |] -> "C Y"
     | [| "A"; "X" |] -> "A Z"
     | [| "B"; "X" |] -> "B X"
@@ -34,16 +34,16 @@ let score2 (s: string) =
     | _ -> failwith "invalid match"
 
 let part1() =
-    let response =
-        File.ReadAllLines(inputfile)
-        |> Seq.sumBy score1
-    printfn $"part1: {response}"
+    inputfile
+    |> readlines
+    |> Seq.sumBy score1
+    |> print1
 
 let part2() =
-    let response =
-        File.ReadAllLines(inputfile)
-        |> Seq.sumBy (score1 << score2)
-    printfn $"part2: {response}"
+    inputfile
+    |> readlines
+    |> Seq.sumBy (score1 << score2)
+    |> print2
 
 part1()
 part2()

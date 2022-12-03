@@ -1,21 +1,26 @@
-open System
-open System.IO
+#load "Helpers.fsx"
+open Helpers
 
 let inputfile = "inputs/day1.input"
 
-let compute() =
-    File.ReadAllLines(inputfile)
-    |> String.concat "+"
-    |> (fun x -> x.Split("++"))
-    |> Seq.map (fun x -> x.Split("+") |> Seq.map int |> Seq.sum)
+let compute () =
+    inputfile
+    |> readlines
+    |> join "+"
+    |> split "++"
+    |> Seq.map (Seq.sum << Seq.map int << split "+")
 
 let part1() =
-    let response = compute() |> Seq.max
-    printfn $"part1: {response}"
+    compute()
+    |> Seq.max
+    |> print1
 
 let part2() =
-    let response = compute() |> Seq.sortDescending |> Seq.take 3 |> Seq.sum
-    printfn $"part2: {response}"
+    compute()
+    |> Seq.sortDescending
+    |> Seq.take 3 
+    |> Seq.sum
+    |> print2
 
 part1()
 part2()

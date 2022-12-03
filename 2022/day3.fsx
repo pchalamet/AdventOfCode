@@ -1,4 +1,5 @@
-open System.IO
+#load "Helpers.fsx"
+open Helpers
 
 let inputfile = "inputs/day3.input"
 
@@ -15,25 +16,22 @@ let score (rss: string seq) =
     (common |> int) - b
 
 let split2 (s: string) =
-    [s.Substring(0, s.Length/2); s.Substring(s.Length/2)]
+    let h = s.Length/2
+    [ s |> mid 0 h; s |> mid h h ]
 
 let day1() =
-    let response =
-        File.ReadAllLines(inputfile)
-        |> Seq.map split2
-        |> Seq.sumBy score
-
-    printfn $"part1: {response}"
+    inputfile
+    |> readlines
+    |> Seq.map split2
+    |> Seq.sumBy score
+    |> print1
 
 let day2() =
-    let response =
-        File.ReadAllLines(inputfile)
-        |> Seq.chunkBySize 3
-        |> Seq.sumBy score
-
-    printfn $"part2: {response}"
-
+    inputfile
+    |> readlines
+    |> Seq.chunkBySize 3
+    |> Seq.sumBy score
+    |> print2
 
 day1()
 day2()
-
