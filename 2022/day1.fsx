@@ -1,7 +1,7 @@
 open System
 open System.IO
 
-let inputfile = "inputs/day1.txt"
+let inputfile = "inputs/day1.input"
 
 let compute() =
     File.ReadAllLines(inputfile)

@@ -1,7 +1,7 @@
 open System
 open System.IO
 
-let inputfile = "inputs/day2.txt"
+let inputfile = "inputs/day2.input"
 
 let score1 (s: string) =
     match s.Split(" ") with
@@ -36,15 +36,13 @@ let score2 (s: string) =
 let part1() =
     let response =
         File.ReadAllLines(inputfile)
-        |> Seq.map score1
-        |> Seq.sum
+        |> Seq.sumBy score1
     printfn $"part1: {response}"
 
 let part2() =
     let response =
         File.ReadAllLines(inputfile)
-        |> Seq.map (score1 << score2)
-        |> Seq.sum
+        |> Seq.sumBy (score1 << score2)
     printfn $"part2: {response}"
 
 part1()
