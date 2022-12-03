@@ -1,4 +1,3 @@
-#load "Strings.fsx"
 open System.IO
 
 let inputfile = "inputs/day3.input"
@@ -16,8 +15,7 @@ let score (rss: string seq) =
     (common |> int) - b
 
 let split2 (s: string) =
-    [ s |> Strings.mid 0 s.Length/2; s |> mid s.Length/2 s.Length/2]
-    // [s.Substring(0, s.Length/2); s.Substring(s.Length/2)]
+    [s.Substring(0, s.Length/2); s.Substring(s.Length/2)]
 
 let day1() =
     let response =
