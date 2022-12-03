@@ -19,19 +19,19 @@ let split2 (s: string) =
     let h = s.Length/2
     [ s |> mid 0 h; s |> mid h h ]
 
-let day1() =
+let part1() =
     inputfile
     |> readlines
     |> Seq.map split2
     |> Seq.sumBy score
     |> print1
 
-let day2() =
+let part2() =
     inputfile
     |> readlines
     |> Seq.chunkBySize 3
     |> Seq.sumBy score
     |> print2
 
-day1()
-day2()
+part1()
+part2()
