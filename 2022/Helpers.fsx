@@ -12,7 +12,7 @@ let print2 result = printfn $"part2: {result}"
 
 let (|Regex|_|) pattern input =
     let m = Regex.Match(input, pattern)
-    if m.Success then Some(List.tail [ for g in m.Groups -> g.Value ])
+    if m.Success then List.tail [ for g in m.Groups -> g.Value ] |> Some
     else None
 
 [<AutoOpen>]
