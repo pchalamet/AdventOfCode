@@ -22,17 +22,15 @@ let score2 (set1, set2) =
     if Set.intersect set1 set2 <> Set.empty then 1
     else 0
 
-let part1() =
+let compute f =
     inputfile
     |> readlines
-    |> Seq.map (score1 << parse)
+    |> Seq.map (f << parse)
     |> Seq.sum
 
-let part2() =
-    inputfile
-    |> readlines
-    |> Seq.map (score2 << parse)
-    |> Seq.sum
+let part1() = compute score1
+
+let part2() = compute score2
 
 part1() |> print1
 part2() |> print2
