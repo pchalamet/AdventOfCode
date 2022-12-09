@@ -1,6 +1,5 @@
 #load "Helpers.fsx"
 open Helpers
-open System.Linq
 
 let inputfile = "inputs/day6.input"
 
