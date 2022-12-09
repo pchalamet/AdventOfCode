@@ -1,10 +1,10 @@
+open System
 open System.IO
 open System.Text.RegularExpressions
 
 let split (sep: string) (s: string) = s.Split(sep)
 let mid start len (s: string) = s.Substring(start, len)
 let join (sep: string) (ss: string seq) = String.concat sep ss
-let isUpperCase (c: char) = System.Char.IsUpper(c)
 
 let (|Regex|_|) pattern input =
     let m = Regex.Match(input, pattern)

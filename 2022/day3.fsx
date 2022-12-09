@@ -1,4 +1,5 @@
 #load "Helpers.fsx"
+open System
 open Helpers
 
 let inputfile = "inputs/day3.input"
@@ -10,7 +11,7 @@ let score (rss: string seq) =
         rss 
         |> Seq.fold (fun acc rs -> Set.intersect acc (rs |> Set.ofSeq)) allItems
         |> Seq.head
-    let b = (isUpperCase common) ? (int 'A' - 27, int 'a' - 1)
+    let b = Char.IsUpper(common) ? (int 'A' - 27, int 'a' - 1)
     (common |> int) - b
 
 let split2 (s: string) =
