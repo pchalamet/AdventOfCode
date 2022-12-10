@@ -37,13 +37,10 @@ let score reorder =
             let qty, f, t = int qty, int f, int t
             let items = [1..qty] |> List.fold (fun acc _ -> stacks[f-1].Pop() :: acc) [] |> reorder
             items |> List.iter (fun item -> stacks[t-1].Push(item))
-            // for _ in [1..qty] do
-            //     stacks[t-1].Push(stacks[f-1].Pop())
         | _ -> failwith "Invalid match"
 
     stacks |> Seq.fold (fun acc t -> acc + $"{t.Peek()}" ) ""
 
-// MQTPGLLDN
 let part1() =
     score (fun items -> items |> List.rev)
     |> print1
