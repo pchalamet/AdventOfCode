@@ -23,8 +23,7 @@ let score () =
 
 let part1() =
     let signal_strength (cycles, reg) =
-        if (cycles - 20) % 40 = 0 then
-            cycles * reg
+        if (cycles - 20) % 40 = 0 then cycles * reg
         else 0
 
     score()
@@ -43,7 +42,7 @@ let part2() =
     score()
     |> Seq.collect display_sprite
     |> Array.ofSeq
-    |> (fun x -> "\n"+ System.String(x))
+    |> (fun x -> "\n" + System.String(x))
     |> print2
 
 part1()
