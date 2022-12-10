@@ -36,11 +36,6 @@ let score filter =
         | Regex "^dir (.+)$" [dir] -> newdir dir
         | Regex "^(\d+) (.+)$" [len; file] -> newfile file (int len)
         | _ -> failwith "Invalid match"
-    
-    // for KeyValue(folder, files) in folders do
-    //     printfn $"{folder}"
-    //     for KeyValue(file, len) in files do
-    //         printfn $"  {file} {len}"
 
     let folderSizes = 
         folders
@@ -53,7 +48,6 @@ let score filter =
             |> Map.filter (fun k _ -> k.StartsWith(folder))
             |> Seq.sumBy (fun (KeyValue(_, s)) -> s)
         folderWithSubSizes <- folderWithSubSizes |> Map.add folder folderSize
-        // printfn $"{folder} => {folderSize}"
 
     folderWithSubSizes |> filter
 
